@@ -18,7 +18,9 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgres://user:password@db:5432/course_rating_db
+      - DJANGO_SETTINGS_MODULE=course_rating.settings
+      - DATABASE_URL=postgres://user:password@db:5432/course_rating_db
+      - SECRET_KEY=your_secret_key_here
 
 volumes:
   postgres_data:
