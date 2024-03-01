@@ -1,6 +1,19 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Course
 from django.http import HttpResponseRedirect
+from .forms import RateCourseForm
+
+def rate_course(request, course_id):
+    course = get_object_or_404(Course, pk=course_id)
+    if request.method == "POST":
+        form = RateCourseForm(request.POST)
+        if form.is_valid():
+            new_rating = form.cleaned_data['rating']
+            course.update_rating(new_rating)
+            return redirect('course_detail', course_id=course.id)
+    else:
+        form = RateCourseForm()
+    return render(request, 'courses/rate_course.html', {'course': course, 'form': form})
 
 def course_list(request):
     courses = Course.objects.all().order_by('-rate')

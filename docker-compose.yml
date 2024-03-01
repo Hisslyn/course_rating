@@ -10,7 +10,7 @@ services:
       POSTGRES_PASSWORD: password
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 127.0.0.1:8000
     volumes:
       - .:/code
     ports:
@@ -19,8 +19,9 @@ services:
       - db
     environment:
       - DJANGO_SETTINGS_MODULE=course_rating.settings
-      - DATABASE_URL=postgres://user:password@db:5432/course_rating_db
-      - SECRET_KEY=your_secret_key_here
+      - SECRET_KEY=${DJANGO_SECRET_KEY}
+    env_file:
+      - .env
 
 volumes:
   postgres_data:
