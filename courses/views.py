@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Course
+from django.urls import reverse
 from django.http import HttpResponseRedirect
 from .forms import RateCourseForm
 
@@ -32,5 +33,5 @@ def rate_course(request, course_id):
         except ValueError:
             # Handle the error if the input is not a valid float
             pass
-        return redirect('course_detail', course_id=course_id)
+        return HttpResponseRedirect(reverse('courses:course_detail', args=[course_id]))
     return render(request, 'courses/rate_course.html', {'course': course})
